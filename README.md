@@ -119,30 +119,51 @@ The Power BI dashboard provides business insights including:
 ![Feature Importance](images/feature_importance.png)
 
 ---
+## Repository Structure
 
-## Project Structure
+```
+telecom-customer-churn-analysis
 
-customer-churn-project
-│
-├── notebook
-│   └── Customer_churn_analysis.ipynb
-│
-├── sql
-│   └── SQL_queries.sql
-│
-├── powerbi
-│   └── churn_dashboard.pbix
-│
-├── outputs
-│   └── churn_predictions.xlsx
-│
-├── images
-│   └── dashboard.png
-│
-└── README.md
+notebook/
+    Customer_churn_analysis.ipynb
+
+sql/
+    data_cleaning_queries.sql
+
+powerbi/
+    churn_dashboard.pbix
+
+outputs/
+    churn_predictions.xlsx
+
+images/
+    dashboard.png
+    roc_curve.png
+    feature_importance.png
+```
 
 ---
+## Dataset
 
+This project uses the Telecom Customer Churn dataset, which contains customer demographics, subscribed services, billing information, and churn status.
+---
+## Model Performance
+
+Random Forest model after hyperparameter tuning using **GridSearchCV** achieved:
+
+* Accuracy: ~86%
+* Precision: 0.85
+* Recall: 0.66
+* F1 Score: 0.74
+
+The model helps identify **high-risk churn customers**, enabling businesses to take proactive retention strategies.
+---
+
+## Key Insights
+
+- Customers with **month-to-month contracts** have higher churn rates  
+- Customers with **short tenure** are more likely to churn  
+- **Higher monthly charges** correlate with increased churn probability 
 ## Conclusion
 
 This project demonstrates a complete **data analytics and machine learning workflow** combining data cleaning, business intelligence, and predictive modeling.
