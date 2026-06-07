@@ -1,178 +1,308 @@
-# Customer Churn Prediction – End-to-End Data Science Project
+# 📡 Telecom Customer Churn Analysis
+### End-to-End Data Analytics Project
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
-![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Random%20Forest-green)
+![Machine Learning](https://img.shields.io/badge/ML-Random%20Forest-green)
 ![Power BI](https://img.shields.io/badge/Visualization-Power%20BI-yellow)
-![SQL](https://img.shields.io/badge/Database-SQL-orange)
+![SQL](https://img.shields.io/badge/Database-SQL%20Server-orange)
 ![Status](https://img.shields.io/badge/Project-Completed-brightgreen)
-## Project Overview
-
-This project builds an end-to-end data science pipeline to analyze and predict **customer churn** in a telecom company. The goal is to identify customers who are likely to leave the service so businesses can take proactive retention actions.
-
-The project demonstrates a complete analytics workflow combining **SQL for data cleaning, Power BI for business insights, and machine learning in Python for predictive modeling.**
 
 ---
 
-## Project Workflow
+## 🎯 Project Overview
 
-SQL Data Cleaning
-↓
-Power BI Dashboard Analysis
-↓
-Data Preprocessing (Python)
-↓
-Machine Learning Model Training
-↓
-Model Evaluation
-↓
-Customer Churn Prediction
+A complete end-to-end customer churn analytics pipeline for a telecom company — covering data engineering in SQL, machine learning in Python, and business intelligence in Power BI.
+
+**The core problem:** With a churn rate of **26.54%**, the business is losing roughly 1 in 4 customers. This project identifies *who* is at risk, *why* they leave, and *what* actions to take.
+
+**Key technical contribution:** Identified and solved a **distribution shift problem** — a single model cannot fairly predict churn for both existing customers and new joiners. Built a **two-model architecture** to handle each segment correctly.
 
 ---
 
-## Tech Stack
+## 🏗️ Project Architecture
 
-* **Python**
-* **Pandas, NumPy**
-* **Scikit-learn**
-* **Matplotlib, Seaborn**
-* **SQL**
-* **Power BI**
-
----
-
-## Machine Learning Model
-
-The project uses a **Random Forest Classifier** to predict whether a customer will churn.
-
-To improve model performance, **GridSearchCV with 5-fold cross-validation** was used for hyperparameter tuning. The following parameters were optimized:
-
-* `n_estimators` – number of trees in the forest
-* `max_depth` – maximum depth of decision trees
-* `min_samples_split` – minimum samples required to split a node
-* `max_features` – number of features considered at each split
-
-This approach helps select the **best-performing model configuration**.
-
----
-
-## Model Evaluation
-
-The model performance was evaluated using multiple metrics:
-
-* **Accuracy:** ~86%
-* **Confusion Matrix**
-* **Precision, Recall, F1-score**
-* **ROC-AUC Score**
-* **ROC Curve**
-
-These metrics provide a comprehensive evaluation of the model’s classification performance.
-
----
-
-## Feature Importance Insights
-
-Feature importance analysis shows that the most influential factors for churn prediction include:
-
-* **Tenure in Months**
-* **Contract Type**
-* **Monthly Charges**
-* **Total Revenue**
-* **Customer Usage Patterns**
-
-Customers with **short tenure and month-to-month contracts** are more likely to churn.
-
----
-
-## Churn Prediction for New Customers
-
-The trained model was used to predict churn probabilities for new customers.
-
-Customers with churn probability **greater than 0.8** were classified as high-risk churn customers.
-
-The predictions were exported to an Excel file for further business analysis.
-
----
-
-## Power BI Dashboard
-
-The Power BI dashboard provides business insights including:
-
-* Customer churn distribution
-* Contract type analysis
-* Revenue trends
-* Customer behavior patterns
-
-### Dashboard Preview
-
-![Power BI Dashboard](images/dashboard.png)
-
----
-
-## Model Visualizations
-
-### ROC Curve
-
-![ROC Curve](images/roc_curve.png)
-
-### Feature Importance
-
-![Feature Importance](images/feature_importance.png)
-
----
-## Repository Structure
-
-```
-telecom-customer-churn-analysis
-
-notebook/
-    Customer_churn_analysis.ipynb
-
-sql/
-    data_cleaning_queries.sql
-
-powerbi/
-    churn_dashboard.pbix
-
-outputs/
-    churn_predictions.xlsx
-
-images/
-    dashboard.png
-    roc_curve.png
-    feature_importance.png
+```text
+Raw Data (SQL Server)
+        ↓
+   Null Audit & Cleaning
+        ↓
+   Staging → Production Table
+        ↓
+   Views: vw_ChurData | vw_JoinData
+        ↓
+   ┌─────────────────────────────────┐
+   │         Python Pipeline         │
+   │                                 │
+   │  EDA → Feature Engineering      │
+   │              ↓                  │
+   │  Model 1 (Existing Customers)   │
+   │  Model 2 (New Joiners)          │
+   └─────────────────────────────────┘
+        ↓
+   Excel Output (Predictions)
+        ↓
+   Power BI Dashboard
+   Page 1: Historical Analysis
+   Page 2: Churn Predictions
 ```
 
 ---
-## Dataset
 
-This project uses the Telecom Customer Churn dataset, which contains customer demographics, subscribed services, billing information, and churn status.
----
-## Model Performance
+## 🛠️ Tech Stack
 
-Random Forest model after hyperparameter tuning using **GridSearchCV** achieved:
-
-* Accuracy: ~86%
-* Precision: 0.85
-* Recall: 0.66
-* F1 Score: 0.74
-
-The model helps identify **high-risk churn customers**, enabling businesses to take proactive retention strategies.
----
-
-## Key Insights
-
-- Customers with **month-to-month contracts** have higher churn rates  
-- Customers with **short tenure** are more likely to churn  
-- **Higher monthly charges** correlate with increased churn probability 
-## Conclusion
-
-This project demonstrates a complete **data analytics and machine learning workflow** combining data cleaning, business intelligence, and predictive modeling.
-
-The Random Forest model provides strong predictive performance and can help businesses **identify high-risk churn customers and design effective retention strategies.**
+| Layer | Tools |
+|---------|---------|
+| Data Engineering | SQL Server, T-SQL |
+| Analysis & ML | Python, Pandas, NumPy, Scikit-learn |
+| Visualization | Matplotlib, Seaborn |
+| Dashboard | Power BI |
+| Model Saving | Joblib |
+| Output | Excel |
 
 ---
 
-## Author
+## 🗄️ SQL Layer
 
-**Anjali Dogra**
-Data Science Aspirant
+| Script | Purpose |
+|---------|---------|
+| `_null_value_count.sql` | Null audit across all 38 columns |
+| `Replacing_Null.sql` | Null replacement with business logic |
+| `Create_view.sql` | Separate views for churned vs new customers |
+| `basic_count.sql` | Distribution checks by key segments |
+
+### Null Replacement Strategy
+
+- Service columns → `'No'` (NULL means service not subscribed)
+- `Internet_Type` → `'None'` (NULL means no internet service)
+- Numeric charges → `0` (NULL means no usage)
+- `Churn_Category` / `Churn_Reason` → `'Others'`
+
+---
+
+## 🤖 Two-Model Architecture
+
+### The Problem
+
+Applying a single churn model to new joiners produced **85% churn predictions (389/454)** — clearly unrealistic.
+
+New customers naturally have:
+
+- Low tenure
+- Low accumulated revenue
+- Limited usage history
+
+The original model incorrectly interpreted these characteristics as churn signals.
+
+### The Solution
+
+### Model 1 — Existing Customers (Tenure ≥ 6 Months)
+
+- Full feature set including tenure, revenue, and service usage
+- Algorithm: Random Forest + GridSearchCV (5-Fold Cross Validation)
+- Accuracy: ~86%
+
+**Best Parameters**
+
+```python
+n_estimators = 175
+max_depth = 20
+min_samples_split = 2
+```
+
+### Model 2 — New Joiners (Signup-Time Features Only)
+
+Uses only information available at customer onboarding:
+
+- Contract
+- Payment Method
+- Offer
+- Internet Type
+- Monthly Charge
+- Age
+- Gender
+- Married
+- Number of Dependents
+- Phone Service
+- Internet Service
+- Paperless Billing
+
+### Output
+
+- Churn Probability (0–100%)
+- Risk Tier
+- Risk Rank
+
+### Model 2 Results
+
+| Risk Tier | Count | Percentage | Action |
+|------------|--------|------------|---------|
+| 🔴 High Risk | 156 | 34.4% | Immediate retention outreach |
+| 🟠 Medium Risk | 158 | 34.8% | Monitor and nurture |
+| 🟢 Low Risk | 140 | 30.8% | Standard onboarding |
+
+---
+
+## 📊 Power BI Dashboard
+
+### Page 1 — Churn Analysis Summary
+
+- KPI Cards
+  - Total Customers (7K)
+  - Total Churn (1.87K)
+  - Churn Rate (26.54%)
+
+- Churn Analysis by:
+  - Contract Type
+  - Tenure Group
+  - Age Group
+  - Internet Type
+  - Payment Method
+
+- Service Adoption Matrix
+  - Yes/No breakdown for all 12 telecom services
+
+- Churn Category Analysis
+  - Competitor
+  - Dissatisfaction
+  - Price
+  - Attitude
+
+### Page 2 — Churn Prediction Dashboard
+
+- Risk Tier KPI Cards
+- Churn Probability Distribution
+- Risk by:
+  - Contract Type
+  - Age Group
+  - Internet Type
+  - Payment Method
+
+- Retention Priority Table
+  - Sorted using Risk Rank
+
+- Interactive Slicers
+  - Risk Tier
+  - Contract Type
+
+---
+
+## 🔍 Key Insights
+
+### 1. Contract Type is the Strongest Churn Driver
+
+- Month-to-Month Churn: **45.84%**
+- Two-Year Contract Churn: **2.55%**
+
+➡️ Nearly **18× higher churn risk**
+
+### 2. Fiber Optic Customers Churn the Most
+
+- Churn Rate: **40.72%**
+
+Despite being the premium product, customers leave more frequently.
+
+### 3. Competitor Switching is the #1 Churn Reason
+
+- **841 customers** left for competitors
+
+### 4. First Six Months are Critical
+
+- Churn Rate: **54.71%**
+
+Customer experience during onboarding heavily impacts retention.
+
+### 5. Mailed Check Customers Have Highest Churn
+
+- Churn Rate: **36.88%**
+
+Likely less engaged and less likely to use auto-pay.
+
+### 6. Tech Support Improves Retention
+
+- **83.41%** of churned customers did **not** subscribe to premium tech support.
+
+---
+
+## 💡 Business Recommendations
+
+| Priority | Segment | Recommendation | Expected Impact |
+|------------|------------|------------------|------------------|
+| 1 | Month-to-Month New Joiners | Offer discounted annual plans at signup | Reduce High-Risk customers |
+| 2 | High-Risk Fiber Users | Free Premium Tech Support (3 months) | Reduce dissatisfaction |
+| 3 | Churn Probability ≥ 70% | Loyalty offers before contract exit | Improve retention |
+| 4 | Mailed Check Customers | Incentivize Auto-Pay adoption | Increase engagement |
+| 5 | Customers Age 60+ | Dedicated onboarding support | Improve early experience |
+
+---
+
+## 📁 Repository Structure
+
+```text
+telecom-customer-churn-analysis/
+│
+├── Notebook.ipynb
+│
+├── sql/
+│   ├── _null_value_count.sql
+│   ├── Replacing_Null.sql
+│   ├── Create_view.sql
+│   └── basic_count.sql
+│
+├── dataset/
+│   └── Customer_Churn_Predicted.xlsx
+│
+├── models/
+│   ├── model1_existing_customers.pkl
+│   ├── model1_label_encoders.pkl
+│   ├── model2_new_joiners.pkl
+│   └── model2_label_encoders.pkl
+│
+├── power_bi/
+│   └── churn_analysis.pbix
+│
+└── Report.pdf
+```
+
+---
+
+## 📈 Model Performance
+
+| Metric | Score |
+|----------|----------|
+| Accuracy | ~86% |
+| Precision | 0.85 |
+| Recall | 0.66 |
+| F1 Score | 0.74 |
+| ROC-AUC | High |
+
+---
+
+## 🚀 How to Run
+
+```bash
+# Clone repository
+git clone https://github.com/anjalidogra01/telecom-customer-churn-analysis.git
+
+# Move into project folder
+cd telecom-customer-churn-analysis
+
+# Install dependencies
+pip install pandas numpy scikit-learn matplotlib seaborn openpyxl joblib
+
+# Launch notebook
+jupyter notebook Notebook.ipynb
+```
+
+---
+
+## 👩‍💻 Author
+
+### Anjali Dogra
+**Data Analyst | Data Science Aspirant**
+
+- GitHub: https://github.com/anjalidogra01
+- LinkedIn: https://www.linkedin.com/in/anjali-dogra
+
+---
+
+⭐ If you found this project useful, consider giving it a star.
